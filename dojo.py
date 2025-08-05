@@ -1,6 +1,9 @@
 from models import Office,LivingSpace,Staff, Fellow
 import random
+import pickle
+import os
 
+STATE_FILE='dojo_state.pkl'
 
 class Dojo:
     def __init__(self):
@@ -50,3 +53,15 @@ class Dojo:
         else:
           output.append(f"No living spaces available for {person.first_name}.")
       return output
+    def save_state(self):
+      with open(STATE_FILE, 'wb') as f:
+        pickle.dump(self, f)
+    @staticmethod
+    def load_state():
+      if os.path.exists(STATE_FILE):
+        with open(STATE_FILE, 'rb') as f:
+          return pickle.load(f)
+      else:
+        return Dojo()
+      
+    
