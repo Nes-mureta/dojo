@@ -3,6 +3,9 @@ __doc__ = """
 Usage:
   create_room <room_type> <room_name>...
   add_person <person_name> <role> [<wants_living_space>]
+  list_allocations <room_type> <room_name>
+  list_rooms <room_type>
+  list_people <role>
   exit
   (-h | --help)
 
@@ -47,6 +50,37 @@ def main():
                 for line in dojo.add_person(name, role, wants):
                     print(line)
                 dojo.save_state()
+            
+            elif command =='list_allocations':
+                if len(parts) ==3:
+                    room_type = parts[1]
+                    room_name = parts[2]
+                    allocations = dojo.list_allocations(room_type, room_name)
+                    if allocations:
+                        print(f"Allocations for {room_type} '{room_name}':")
+                        for allocation in allocations:
+                            print(allocation)
+                    else:
+                        print(f"No allocations found for {room_type} '{room_name}'.")
+                elif len(parts) == 2:
+                    room_type = parts[1]
+                    allocations = dojo.list_allocations(room_type)
+                    if allocations:
+                        print(f"Allocations for {room_type}:")
+                        for allocation in allocations:
+                            print(allocation)
+                    else:
+                        print(f"No allocations found for {room_type}.")
+                elif len(parts)==1:
+                    all_allocations = dojo.list_allocations()
+                    if all_allocations:
+                        print("All Allocations:")
+                        for allocation in all_allocations:
+                            print(allocation)   
+                        else:
+                            print("No allocations found.")
+                
+                
             
             else:
                 print("Command not recognized. The available commands are:\ncreate_room <office|living_space> <name>\nadd_person <name> <STAFF|FELLOW> [YES|NO]\nexit")

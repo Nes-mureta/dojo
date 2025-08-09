@@ -61,6 +61,34 @@ class Dojo:
         
         return output
     
+    def list_allocations(self, room_type=None, room_name=None):
+        allocations = []
+        
+        if room_type is None:
+            # List all allocations
+            for office in self.offices:
+                allocations.append(f"Office: {office.name}, Occupants: {[p.name for p in office.occupants]}")
+            for living_space in self.living_spaces:
+                allocations.append(f"Living Space: {living_space.name}, Occupants: {[p.name for p in living_space.occupants]}")
+        elif room_type.lower() == 'office':
+            if room_name:
+                office = next((o for o in self.offices if o.name == room_name), None)
+                if office:
+                    allocations.append(f"Office: {office.name}, Occupants: {[p.name for p in office.occupants]}")
+            else:
+                for office in self.offices:
+                    allocations.append(f"Office: {office.name}, Occupants: {[p.name for p in office.occupants]}")
+        elif room_type.lower() == 'living_space':
+            if room_name:
+                living_space = next((l for l in self.living_spaces if l.name == room_name), None)
+                if living_space:
+                    allocations.append(f"Living Space: {living_space.name}, Occupants: {[p.name for p in living_space.occupants]}")
+            else:
+                for living_space in self.living_spaces:
+                    allocations.append(f"Living Space: {living_space.name}, Occupants: {[p.name for p in living_space.occupants]}")
+        
+        return allocations
+    
     def save_state(self):
         with open(STATE_FILE, 'wb') as f:
             pickle.dump(self, f)
