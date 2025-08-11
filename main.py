@@ -5,7 +5,7 @@ Usage:
   add_person <person_name> <role> [<wants_living_space>]
   list_allocations <room_type> <room_name>
   list_rooms <room_type>
-  list_people <role>
+  list_people <role> 
   exit
   (-h | --help)
 
@@ -18,7 +18,7 @@ from dojo import Dojo
 
 def main():
     dojo = Dojo.load_state()
-    print("Dojo Allocation System. Type '--help' for options")
+    print("Dojo Allocation System. Type '--help' for options or 'exit' to quit.")
     
     while True:
         try:
@@ -50,6 +50,7 @@ def main():
                 for line in dojo.add_person(name, role, wants):
                     print(line)
                 dojo.save_state()
+                
             
             elif command =='list_allocations':
                 if len(parts) ==3:
@@ -79,6 +80,45 @@ def main():
                             print(allocation)   
                         else:
                             print("No allocations found.")
+                            
+                            
+            elif command == 'list_rooms':
+                if len(parts) == 2:
+                    room_type = parts[1]
+                    rooms = dojo.list_rooms(room_type)
+                    if rooms:
+                        print(f"{room_type.capitalize()} Rooms:")
+                        for room in rooms:
+                            print(room)
+                    else:
+                        print(f"No {room_type} rooms found.")
+                else:
+                    all_rooms = dojo.list_rooms()
+                    if all_rooms:
+                        print("All Rooms:")
+                        for room in all_rooms:
+                            print(room)
+                    else:
+                        print("No rooms found.")
+                        
+            elif command == 'list_people':
+                if len(parts) == 2:
+                    role = parts[1]
+                    people = dojo.list_people(role)
+                    if people:
+                        print(f"{role.capitalize()}s:")
+                        for person in people:
+                            print(person)
+                    else:
+                        print(f"No {role} found.")
+                else:
+                    all_people = dojo.list_people()
+                    if all_people:
+                        print("All People:")
+                        for person in all_people:
+                            print(person)
+                    else:
+                        print("No people found.")
                 
                 
             

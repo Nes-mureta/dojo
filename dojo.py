@@ -88,6 +88,25 @@ class Dojo:
                     allocations.append(f"Living Space: {living_space.name}, Occupants: {[p.name for p in living_space.occupants]}")
         
         return allocations
+    def list_rooms(self, room_type=None):
+        if room_type is None:
+            return self.offices + self.living_spaces
+        elif room_type.lower() == 'office':
+            return self.offices
+        elif room_type.lower() == 'living_space':
+            return self.living_spaces
+        else:
+            return []
+    
+    def list_people(self, role=None):
+        if role is None:
+            return self.people
+        elif role.upper() == 'STAFF':
+            return [p for p in self.people if isinstance(p, Staff)]
+        elif role.upper() == 'FELLOW':
+            return [p for p in self.people if isinstance(p, Fellow)]
+        else:
+            return []
     
     def save_state(self):
         with open(STATE_FILE, 'wb') as f:
