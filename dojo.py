@@ -15,10 +15,10 @@ class Dojo:
         room_type = room_type.lower()
         if room_type == 'office':
             self.offices.append(Office(name))
-            return f"An office called '{name}'has been successful created."
+            return f"An office called '{name}' has been successful created."
         elif room_type == 'living_space':
             self.living_spaces.append(LivingSpace(name))
-            return f"A living space called '{name}'has been successful  created."
+            return f"A living space called '{name}' has been successful  created."
         return "Invalid room type. Use 'office' or 'living_space'."
     
     def add_person(self, name, role, wants_living_space='NO'):

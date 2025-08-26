@@ -14,6 +14,7 @@ Options:
 """
 
 from docopt import docopt, DocoptExit
+from tabulate import tabulate
 from dojo import Dojo
 
 def main():
@@ -59,8 +60,8 @@ def main():
                     allocations = dojo.list_allocations(room_type, room_name)
                     if allocations:
                         print(f"Allocations for {room_type} '{room_name}':")
-                        for allocation in allocations:
-                            print(allocation)
+                        table_data = [[i + 1, alloc] for i, alloc in enumerate(allocations)]
+                        print(tabulate(table_data, headers=["#", "Allocations"], tablefmt="fancy_grid"))    
                     else:
                         print(f"No allocations found for {room_type} '{room_name}'.")
                 elif len(parts) == 2:
@@ -68,18 +69,18 @@ def main():
                     allocations = dojo.list_allocations(room_type)
                     if allocations:
                         print(f"Allocations for {room_type}:")
-                        for allocation in allocations:
-                            print(allocation)
+                        table_data = [[i + 1, alloc] for i, alloc in enumerate(allocations)]
+                        print(tabulate(table_data, headers=["#", "Allocations"], tablefmt="fancy_grid"))
                     else:
                         print(f"No allocations found for {room_type}.")
                 elif len(parts)==1:
                     all_allocations = dojo.list_allocations()
                     if all_allocations:
                         print("All Allocations:")
-                        for allocation in all_allocations:
-                            print(allocation)   
-                        else:
-                            print("No allocations found.")
+                        table_data = [[i + 1, alloc] for i, alloc in enumerate(all_allocations)]
+                        print(tabulate(table_data, headers=["#", "Allocations"], tablefmt="fancy_grid")) 
+                    else:
+                        print("No allocations found.")
                             
                             
             elif command == 'list_rooms':
@@ -87,17 +88,17 @@ def main():
                     room_type = parts[1]
                     rooms = dojo.list_rooms(room_type)
                     if rooms:
-                        print(f"{room_type.capitalize()} Rooms:")
-                        for room in rooms:
-                            print(room)
+                       print(f"\n{room_type.capitalize()} Rooms:")
+                       table_data = [[i + 1, room] for i, room in enumerate(rooms)]
+                       print(tabulate(table_data, headers=["#", "Room Name"], tablefmt="fancy_grid"))
                     else:
                         print(f"No {room_type} rooms found.")
                 else:
                     all_rooms = dojo.list_rooms()
                     if all_rooms:
-                        print("All Rooms:")
-                        for room in all_rooms:
-                            print(room)
+                           print("\nAll Rooms:")
+                           table_data = [[i + 1, room] for i, room in enumerate(all_rooms)]
+                           print(tabulate(table_data, headers=["#", "Room Name"], tablefmt="fancy_grid"))
                     else:
                         print("No rooms found.")
                         
@@ -106,17 +107,18 @@ def main():
                     role = parts[1]
                     people = dojo.list_people(role)
                     if people:
-                        print(f"{role.capitalize()}s:")
-                        for person in people:
-                            print(person)
+                        print(f"\n{role.capitalize()}s:")
+                        table_data = [[i + 1, person] for i, person in enumerate(people)]
+                        print(tabulate(table_data, headers=["#", "Name"], tablefmt="fancy_grid"))
+                        
                     else:
                         print(f"No {role} found.")
                 else:
                     all_people = dojo.list_people()
                     if all_people:
-                        print("All People:")
-                        for person in all_people:
-                            print(person)
+                        print("\nAll People:")
+                        table_data = [[i + 1, person] for i, person in enumerate(all_people)]
+                        print(tabulate(table_data, headers=["#", "Name"], tablefmt="fancy_grid"))
                     else:
                         print("No people found.")
                 
